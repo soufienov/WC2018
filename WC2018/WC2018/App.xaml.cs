@@ -13,7 +13,7 @@ namespace WC2018
         {
             InitializeComponent();
 
-            MainPage = new WC2018.MainPage();
+            MainPage = new WC2018.Views.SquadPage();
         }
 
         protected override void OnStart()
