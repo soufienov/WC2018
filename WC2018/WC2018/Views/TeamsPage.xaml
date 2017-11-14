@@ -14,11 +14,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image Source="tn.jpg"  Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0" x:Name="tn" />
-                <Label x:Name="Tunisia" Grid.Row="0" Grid.Column="0" />
+                <Label x:Name="Tunisia" Grid.Row="1" Grid.Column="0" Text="Tunisia"/>
 
                 <Image Source="tn.jpg" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1" />
-                <Image Source="tn.jpg" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" />
-                <Image Source="tn.jpg" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="1" />
+                <Label Text="Italy" Grid.Row="1" Grid.Column="1" />
+                <Image Source="tn.jpg" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="0" />
+                <Label Text="France" Grid.Row="3" Grid.Column="0" />
+                <Image Source="tn.jpg" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="1" />
+                <Label Text="Germany" Grid.Row="3" Grid.Column="1" />
             </Grid>
             
         </StackLayout>

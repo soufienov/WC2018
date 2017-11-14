@@ -13,7 +13,7 @@ namespace WC2018
         {
             InitializeComponent();
 
-            MainPage = new WC2018.Views.SquadPage();
+            MainPage = new WC2018.Views.TeamsPage();
         }
 
         protected override void OnStart()
