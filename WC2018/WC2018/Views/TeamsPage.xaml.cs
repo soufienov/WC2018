@@ -22,12 +22,14 @@ namespace WC2018.Views
                 // cast to an image
                Image theImage = (Image)sender;
                 Xamarin.Forms.FileImageSource objFileImageSource = (Xamarin.Forms.FileImageSource)theImage.Source;
-               
+                Navigation.PushAsync(new SquadPage(objFileImageSource.File));
                 Tunisia.Text = objFileImageSource.File;
                 // now you have a reference to the image
             };
 
             tn.GestureRecognizers.Add(tapGestureRecognizer);
         }
+
+       
     }
 }

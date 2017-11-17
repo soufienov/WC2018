@@ -12,12 +12,22 @@ namespace WC2018.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SquadPage : ContentPage
     {
+        private string file;
+
         public SquadPage()
         {
             var vm = new SquadViewModel();
             BindingContext = vm;
             InitializeComponent();
 
+        }
+
+        public SquadPage(string file)
+        {
+            this.file = file;
+            var vm = new SquadViewModel(file);
+            BindingContext = vm;
+            InitializeComponent();
         }
     }
 }
