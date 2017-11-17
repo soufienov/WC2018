@@ -11,5 +11,44 @@ namespace WC2018.Model
         public string age { get; set; }
         public string team { get; set; }
         public string photo { get; set; } = "tn.jpg";
+
+        public static List<PlayerModel> GuetSquad(string squad) {
+            var squadList = new List<PlayerModel>();
+
+            var players = squad.Split(new string[] { "+","++" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var player in players) {
+                if (!String.IsNullOrEmpty(player)) {
+                    var pseudo = player;
+                    //retrieve name 
+                    var number = pseudo.Substring(0, pseudo.IndexOf(")")+1);
+retry: try
+                    {
+                        pseudo = pseudo.Replace(number, "");
+                    }
+                    catch (Exception e) { goto retry; }
+                   pseudo = pseudo.Trim();
+               
+                var pos= pseudo.Substring(0, 2);
+                    pseudo = pseudo.Replace(pos, "");
+                    pseudo = pseudo.Trim();
+                    var name= pseudo.Substring(0, pseudo.IndexOf(" ") + 1);
+                    retry1: try
+                    {
+                        pseudo = pseudo.Replace(name, ""); pseudo = pseudo.Trim();
+                    }
+                    catch (Exception e) { goto retry1; }
+                    var lastname = pseudo.Substring(0, pseudo.IndexOf(" ") + 1);
+                    retry2: try
+                    {
+                        pseudo = pseudo.Substring(0, pseudo.IndexOf("##") + 1);
+                    }
+                    catch (Exception e) { goto retry2; }
+                    pseudo = pseudo.Trim();
+                }
+            }
+            return squadList;
+        }
     }
+
+
 }
