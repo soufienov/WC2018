@@ -28,6 +28,13 @@ namespace WC2018.Views
             var vm = new SquadViewModel(file);
             BindingContext = vm;
             InitializeComponent();
+            Button b1 = new Button();
+            b1.Text = "oghdgk";
+            var l = (StackLayout)major;
+          var  car = l.FindByName<CarouselView>("SquadCarousel");
+            var ly= (StackLayout)car.FindByName<StackLayout>("layout");
+            
+
         }
     }
 }
