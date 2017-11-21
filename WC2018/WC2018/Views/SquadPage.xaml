@@ -3,23 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WC2018.Views.SquadPage"
              xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
-            >
+           xmlns:local="clr-namespace:WC2018.controls;assembly=WC2018.controls.ButtonGroup" >
     <ContentPage.Content>
+        
         <StackLayout x:Name="major">
             
-            <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
-                <forms:CarouselView.ItemTemplate>
-                    <DataTemplate>
-                       
-                            <StackLayout x:Name="layout">
-                            <Image Source="{Binding photo}"/>
-                            <Label Text="{Binding name}" FontSize="60" x:Name="name"/>
-                        <Label Text="{Binding age}" FontSize="60" x:Name="age"/>
-                        <Label Text="{Binding team}" FontSize="60" x:Name="team"/></StackLayout>
-                    </DataTemplate>
-                </forms:CarouselView.ItemTemplate>
-              
-            </forms:CarouselView>
+         
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
