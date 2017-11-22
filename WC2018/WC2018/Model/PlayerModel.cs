@@ -11,8 +11,8 @@ namespace WC2018.Model
         public string age { get; set; }
         public string team { get; set; }
         public string photo { get; set; } = "tn.jpg";
-
-        public static List<PlayerModel> GuetSquad(string squad) {
+        public List<string> nameSequence { get; set; } = new List<string> { "d", "l", "o" };
+    public static List<PlayerModel> GuetSquad(string squad) {
             var squadList = new List<PlayerModel>();
 
             var players = squad.Split(new string[] { "+","++" }, StringSplitOptions.RemoveEmptyEntries);

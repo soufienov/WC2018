@@ -8,11 +8,12 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using WC2018.ViewModel;
 using WC2018.controls;
+using WC2018.Model;
 
 namespace WC2018.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SquadPage : ContentPage
+    public partial class SquadPage : CarouselPage
     {
         private string file;
 
@@ -28,61 +29,89 @@ namespace WC2018.Views
         {
             this.file = file;
             var vm = new SquadViewModel(file);
-            BindingContext = vm;
+          
             InitializeComponent();
-            CarouselView crv = new CarouselView();
-            crv.ItemsSource = vm.Squad;
-            DataTemplate dt = new DataTemplate();
-            StackLayout stl = new StackLayout();
-            Image im = new Image();
-            im.Source = "tunisia.png";
-            var buttonGroupQuantityItems = new List<string>();
-
-            for (var i = 1; i <= 8; i++)
+            Thickness padding;
+            switch (Device.RuntimePlatform)
             {
-                buttonGroupQuantityItems.Add(i.ToString(CultureInfo.InvariantCulture));
+                case Device.iOS:
+                case Device.Android:
+                    padding = new Thickness(0, 40, 0, 0);
+                    break;
+                default:
+                    padding = new Thickness();
+                    break;
             }
-            var buttonGroupQuantity = new ButtonGroup
+
+             ItemTemplate = new DataTemplate(() =>
             {
-                IsNumber = true,
-                Rounded = true,
-                ViewBackgroundColor = Color.Black,
-                BorderColor = Color.White,
-                OutlineColor = Color.Black,
-                BackgroundColor = Device.OnPlatform(Color.Accent, Color.Accent, Color.White),
-                TextColor = Device.OnPlatform(Color.White, Color.White, Color.Black),
-                SelectedTextColor = Device.OnPlatform(Color.Black, Color.White, Color.White),
-                SelectedBackgroundColor = Device.OnPlatform(Color.White, Color.Black, Color.Black),
-                SelectedBorderColor = Device.OnPlatform(Color.White, Color.Silver, Color.Silver),
-                SelectedFrameBackgroundColor = Device.OnPlatform(Color.Black, Color.Black, Color.Black),
-                SelectedIndex = 3,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.Center,
-                Padding = new Thickness(5),
-                Font = Device.OnPlatform(
+                var nameLabel = new Label
+                {
+                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                 nameLabel.SetBinding(Label.TextProperty, "name");
+
+                var colorBoxView = new BoxView
+                {
+                    WidthRequest = 200,
+                    HeightRequest = 200,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    Color = Color.Red
+                };
+                //colorBoxView.SetBinding(BoxView.ColorProperty, "age");
+/*
+                List<char> result = ((PlayerModel)SelectedItem).name.ToCharArray(0,nameLabel.Text.Length).ToList();
+                var buttonGroupTagCloudItems = result.Select(c => c.ToString()).ToList();*/
+
+                var buttonGroupTagCloud = new ButtonGroup
+                {
+                    Rounded = false,
+                    IsNumber = false,
+                    ViewBackgroundColor = Color.White,
+                    BorderColor = Color.White,
+                    OutlineColor = Color.Black,
+                    BackgroundColor = Device.OnPlatform(Color.Accent, Color.Accent, Color.White),
+                    TextColor = Device.OnPlatform(Color.White, Color.Black, Color.Black),
+                    SelectedTextColor = Device.OnPlatform(Color.Black, Color.White, Color.White),
+                    SelectedBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                    SelectedBorderColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                    SelectedFrameBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                    SelectedIndex = 3,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    VerticalOptions = LayoutOptions.Center,
+                    Padding = new Thickness(5),
+                    Font = Device.OnPlatform(
                    Font.OfSize("HelveticaNeue-Light", NamedSize.Medium),
                    Font.OfSize("Roboto Light", NamedSize.Medium),
                    Font.OfSize("Segoe WP Light", NamedSize.Medium)),
-                Items = buttonGroupQuantityItems,
-            };
-            stl.Children.Add(im);
-            stl.Children.Add(buttonGroupQuantity);
-            
-
+                 
+                };
+                buttonGroupTagCloud.SetBinding(ButtonGroup.ItemsPropertyProperty, "nameSequence");
+                return new ContentPage
+                {
+                    Padding = padding,
+                    Content = new StackLayout
+                    {
+                        Children = {
+                        nameLabel,
+                        colorBoxView,
+                        buttonGroupTagCloud
+                    }
+                    }
+                };
+            });
+            ItemsSource = vm.Squad;
+           
         }
 
-        private void SquadCarousel_ChildAdded(object sender, FocusEventArgs e)
-        {
-            Button b1 = new Button();
-            b1.Text = "oghdgk";
-          
-            var ly = SquadCarousel.FindByName<StackLayout>("layout");
-
-            ly.Children.Add(b1);
-        }
     }
-}
-   <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
+
+       
+    }
+
+  /* <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
                 <forms:CarouselView.ItemTemplate>
                     <DataTemplate>
                        
@@ -92,4 +121,4 @@ namespace WC2018.Views
                     </ DataTemplate >
                 </ forms:CarouselView.ItemTemplate>
               
-            </forms:CarouselView>
+            </forms:CarouselView>*/
