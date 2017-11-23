@@ -13,7 +13,7 @@ using WC2018.Model;
 namespace WC2018.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SquadPage : CarouselPage
+    public partial class SquadPage : ContentPage
     {
         private string file;
 
@@ -29,43 +29,10 @@ namespace WC2018.Views
         {
             this.file = file;
             var vm = new SquadViewModel(file);
-          
+          BindingContext = vm;
             InitializeComponent();
-            Thickness padding;
-            switch (Device.RuntimePlatform)
-            {
-                case Device.iOS:
-                case Device.Android:
-                    padding = new Thickness(0, 40, 0, 0);
-                    break;
-                default:
-                    padding = new Thickness();
-                    break;
-            }
-
-             ItemTemplate = new DataTemplate(() =>
-            {
-                var nameLabel = new Label
-                {
-                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-                    HorizontalOptions = LayoutOptions.Center
-                };
-                 nameLabel.SetBinding(Label.TextProperty, "name");
-
-                var colorBoxView = new BoxView
-                {
-                    WidthRequest = 200,
-                    HeightRequest = 200,
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    Color = Color.Red
-                };
-                //colorBoxView.SetBinding(BoxView.ColorProperty, "age");
-/*
-                List<char> result = ((PlayerModel)SelectedItem).name.ToCharArray(0,nameLabel.Text.Length).ToList();
-                var buttonGroupTagCloudItems = result.Select(c => c.ToString()).ToList();*/
-
-                var buttonGroupTagCloud = new ButtonGroup
+           
+                 buttonGroupTagCloud = new ButtonGroup
                 {
                     Rounded = false,
                     IsNumber = false,
@@ -86,26 +53,45 @@ namespace WC2018.Views
                    Font.OfSize("HelveticaNeue-Light", NamedSize.Medium),
                    Font.OfSize("Roboto Light", NamedSize.Medium),
                    Font.OfSize("Segoe WP Light", NamedSize.Medium)),
-                 
+                   //Items=new List<string> { "i","l","p","o"}
                 };
-                buttonGroupTagCloud.SetBinding(ButtonGroup.ItemsPropertyProperty, "nameSequence");
-                return new ContentPage
-                {
-                    Padding = padding,
-                    Content = new StackLayout
-                    {
-                        Children = {
-                        nameLabel,
-                        colorBoxView,
-                        buttonGroupTagCloud
-                    }
-                    }
-                };
-            });
-            ItemsSource = vm.Squad;
+            buttonGroupTagCloud.Items = ((PlayerModel)SquadCarousel.Item).nameSequence;
+            SquadCarousel.ItemSelected += SquadCarousel_ItemSelected;
+            major.Children.Add(buttonGroupTagCloud);
            
         }
 
+        private void SquadCarousel_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {major.Children.Remove(buttonGroupTagCloud);
+            buttonGroupTagCloud = new ButtonGroup
+            {
+                Rounded = false,
+                IsNumber = false,
+                ViewBackgroundColor = Color.White,
+                BorderColor = Color.White,
+                OutlineColor = Color.Black,
+                BackgroundColor = Device.OnPlatform(Color.Accent, Color.Accent, Color.White),
+                TextColor = Device.OnPlatform(Color.White, Color.Black, Color.Black),
+                SelectedTextColor = Device.OnPlatform(Color.Black, Color.White, Color.White),
+                SelectedBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                SelectedBorderColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                SelectedFrameBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
+                SelectedIndex = 3,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Center,
+                Padding = new Thickness(5),
+                Font = Device.OnPlatform(
+                  Font.OfSize("HelveticaNeue-Light", NamedSize.Medium),
+                  Font.OfSize("Roboto Light", NamedSize.Medium),
+                  Font.OfSize("Segoe WP Light", NamedSize.Medium)),
+                //Items=new List<string> { "i","l","p","o"}
+            };
+           buttonGroupTagCloud.Items = ((PlayerModel)SquadCarousel.Item).nameSequence;
+
+           major.Children.Add(buttonGroupTagCloud);
+        }
+
+        public ButtonGroup buttonGroupTagCloud { get; private set; }
     }
 
        

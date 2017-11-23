@@ -1,8 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<CarouselPage  xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WC2018.Views.SquadPage"
              xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
            xmlns:local="clr-namespace:WC2018.controls;assembly=WC2018.controls.ButtonGroup" >
-    <CarouselPage.ItemTemplate></CarouselPage.ItemTemplate>
-</CarouselPage>
+    <ContentPage.Content>
+        <StackLayout x:Name="major">
+        <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
+            <forms:CarouselView.ItemTemplate>
+                <DataTemplate>
+
+                    <StackLayout x:Name="layout" Orientation="Vertical">
+                        <Image Source = "{Binding photo}" />
+                    </StackLayout >
+                </DataTemplate >
+            </forms:CarouselView.ItemTemplate>
+
+        </forms:CarouselView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
