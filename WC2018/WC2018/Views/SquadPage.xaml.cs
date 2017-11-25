@@ -16,7 +16,6 @@ namespace WC2018.Views
     public partial class SquadPage : ContentPage
     {
         private string file;
-        public StackLayout labels;
         public SquadPage()
         {
             var vm = new SquadViewModel();
@@ -32,59 +31,96 @@ namespace WC2018.Views
           BindingContext = vm;
             InitializeComponent();
 
-            createButtons();
-            createLabels();
+            createButtonsList();
+            createAnswerButtons();
             SquadCarousel.ItemSelected += SquadCarousel_ItemSelected;
         }
 
         private void SquadCarousel_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {major.Children.Remove(buttonGroupTagCloud);
-            major.Children.Remove(labels);
-            createButtons();
-            createLabels();
+        {
+            btnst1.Children.Clear();
+            btnst2.Children.Clear();
+            name.Children.Clear();
+                
+            createButtonsList();
+            createAnswerButtons();
         }
 
         public ButtonGroup buttonGroupTagCloud { get; private set; }
-        private void createButtons() {
-            buttonGroupTagCloud = new ButtonGroup
+  
+        private void createButtonsList()
+        {nameSequence = ((PlayerModel)SquadCarousel.Item).nameSequence;
+            List<string> chalist = new List<string>();chalist.AddRange( nameSequence);
+            
+            while (chalist.Count < 16)
+                chalist.Add(GetLetter());
+            Shuffle<string>(chalist);
+            var i = 0;
+            foreach (string c in chalist)
             {
-                Rounded = false,
-                IsNumber = false,
-                ViewBackgroundColor = Color.White,
-                BorderColor = Color.White,
-                OutlineColor = Color.Black,
-                BackgroundColor = Device.OnPlatform(Color.Accent, Color.Accent, Color.White),
-                TextColor = Device.OnPlatform(Color.White, Color.Black, Color.Black),
-                SelectedTextColor = Device.OnPlatform(Color.Black, Color.White, Color.White),
-                SelectedBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
-                SelectedBorderColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
-                SelectedFrameBackgroundColor = Device.OnPlatform(Color.White, Color.Accent, Color.Accent),
-                SelectedIndex = 3,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.Center,
-                Padding = new Thickness(5),
-                Font = Device.OnPlatform(
-                 Font.OfSize("HelveticaNeue-Light", NamedSize.Medium),
-                 Font.OfSize("Roboto Light", NamedSize.Medium),
-                 Font.OfSize("Segoe WP Light", NamedSize.Medium)),
-                //Items=new List<string> { "i","l","p","o"}
-            };
-            buttonGroupTagCloud.Items = ((PlayerModel)SquadCarousel.Item).nameSequence;
-
-            major.Children.Add(buttonGroupTagCloud);
-
-        }
-        private void createLabels()
-        {
-             labels = new StackLayout { Orientation = StackOrientation.Horizontal };
-            List<string> chalist = buttonGroupTagCloud.Items;
-            List<Label> lblist = new List<Label>();
-            foreach (string c in chalist) {
-                var lb = new Label();lb.Text = "u";
-                lblist.Add(lb);
-                labels.Children.Add(lb);
+               
+                var btn = new Button(); btn.Text = c; btn.BackgroundColor = Color.Red; btn.Clicked += Btn_Clicked;
+                if (i < 8)
+                    btnst1.Children.Add(btn,i,0);
+                else
+                    btnst2.Children.Add(btn,i-8,0);
+                i++;
+               
             }
+        }
 
+        private void Btn_Clicked(object sender, EventArgs e)
+        {
+            var s = ((Button)sender);
+           var bt= findFirstEmpty();
+            bt.Text = s.Text;
+            Grid l =(Grid) s.Parent;l.Children.Remove(s);
+            
+        }
+        private Button findFirstEmpty()
+        {
+            var btns = name.Children;
+          List<Button>  btl=btns.OfType<Button>().ToList<Button>();
+           foreach(var bt in btl)
+            {
+                if (String.IsNullOrEmpty(bt.Text))
+                    return bt;
+            }
+            return null;
+        }
+        private void createAnswerButtons() { var i = 0;
+            foreach (string c in nameSequence)
+            {
+               
+                var btn = new Button();  btn.BackgroundColor = Color.Azure;
+               
+                    name.Children.Add(btn, i, 0);
+                i++;
+
+            }
+        }
+        static Random _random = new Random();
+        private List<string> nameSequence;
+
+        public static string GetLetter()
+        {
+            // This method returns a random lowercase letter.
+            // ... Between 'a' and 'z' inclusize.
+            int num = _random.Next(0, 26); // Zero to 25
+            char let = (char)('a' + num);
+            return let.ToString();
+        }
+        public static void Shuffle<T>(List<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = _random.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 

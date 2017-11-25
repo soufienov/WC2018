@@ -17,6 +17,33 @@
             </forms:CarouselView.ItemTemplate>
 
         </forms:CarouselView>
+            <Grid Grid.ColumnSpan="2" Padding="2,2,2,2"  x:Name="name">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Padding="2,2,2,2"  x:Name="btnst1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                   
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Padding="2,2,2,2"  x:Name="btnst2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                   
+                </Grid.ColumnDefinitions>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
