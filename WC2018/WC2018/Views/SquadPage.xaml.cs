@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using WC2018.ViewModel;
 using WC2018.controls;
 using WC2018.Model;
+using WC2018.services;
+using PCLStorage;
 
 namespace WC2018.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SquadPage : ContentPage
     {
+        IFolder folder = FileSystem.Current.LocalStorage;
         private string file;
         public SquadPage()
         {
@@ -73,10 +75,41 @@ namespace WC2018.Views
         {
             var s = ((Button)sender);
            var bt= findFirstEmpty();
-            bt.Text = s.Text;
-            Grid l =(Grid) s.Parent;l.Children.Remove(s);
+            if (bt != null)
+            {
+                bt.Text = s.Text;
+                Grid l = (Grid)s.Parent;
+                s.IsVisible = false;
+            }
+            
+                checkAnswerAsync();
             
         }
+
+        private async Task checkAnswerAsync()
+        {
+            var i = 0;
+            var l = nameSequence.Count;
+            var en = name.Children.GetEnumerator();
+            en.MoveNext();
+            var en1 = nameSequence.GetEnumerator();
+            en1.MoveNext();
+            while(((Button)en.Current).Text==en1.Current&& i<l)
+            { en.MoveNext();en1.MoveNext();i++; }
+            if (i == l)
+            {
+                en.Dispose();
+               var en2 = name.Children.GetEnumerator();
+                en2.MoveNext();
+                while (i > 0)
+                { var b = ((Button)en2.Current);
+                    b.BackgroundColor = Color.Green;
+                    b.IsEnabled = false;i--;en2.MoveNext();
+                }
+                await fileOpertationAsync();
+            }
+        }
+
         private Button findFirstEmpty()
         {
             var btns = name.Children;
@@ -92,13 +125,41 @@ namespace WC2018.Views
             foreach (string c in nameSequence)
             {
                
-                var btn = new Button();  btn.BackgroundColor = Color.Azure;
+                var btn = new Button();  btn.BackgroundColor = Color.Azure; btn.Clicked += Btn_Clicked1;
                
                     name.Children.Add(btn, i, 0);
                 i++;
 
             }
         }
+
+        private void Btn_Clicked1(object sender, EventArgs e)
+        {
+            var s = ((Button)sender);
+            if (!String.IsNullOrEmpty(s.Text))
+            {
+              
+               
+                var en = btnst1.Children.GetEnumerator();
+                var ps = 0;
+                
+                    en.MoveNext();
+                    while (en.Current.IsVisible&&ps<8)
+                    { en.MoveNext(); ps++; }
+                if (ps < 8) { var bt = ((Button)en.Current);bt.Text = s.Text; bt.IsVisible=true; }
+                else
+                {
+                    ps = 0;
+                    en = btnst2.Children.GetEnumerator(); en.MoveNext();
+                    while (en.Current.IsVisible)
+                    { en.MoveNext(); ps++; }
+                    var bt = ((Button)en.Current); bt.Text = s.Text; bt.IsVisible = true;
+                }
+
+                s.Text = null;
+            }
+        }
+
         static Random _random = new Random();
         private List<string> nameSequence;
 
@@ -122,18 +183,21 @@ namespace WC2018.Views
                 list[n] = value;
             }
         }
+        public async Task fileOpertationAsync()
+        {
+            //check file existance
+
+           var check=await FileService.IsFileExistAsync("score.json",folder);
+            if (!check)
+            { await FileService.CreateFile("score.json",folder);
+              
+            }
+           await  FileService.WriteTextAllAsync("score.json", "{\"Team\":\"it\",\"players\":\"buffon\"}",folder);
+              
+        }
+       
     }
 
        
     }
-  /* <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
-                <forms:CarouselView.ItemTemplate>
-                    <DataTemplate>
-                       
-                            <StackLayout x:Name="layout" Orientation="Vertical">
-                            <Image Source = "{Binding photo}" />
-                            </ StackLayout >
-                    </ DataTemplate >
-                </ forms:CarouselView.ItemTemplate>
-              
-            </forms:CarouselView>*/
+ 
