@@ -18,6 +18,7 @@ namespace WC2018.Views
     {
         IFolder folder = FileSystem.Current.LocalStorage;
         private string file;
+        private string score="";
         public SquadPage()
         {
             var vm = new SquadViewModel();
@@ -32,7 +33,7 @@ namespace WC2018.Views
             var vm = new SquadViewModel(file);
           BindingContext = vm;
             InitializeComponent();
-
+             getScoreAsync();
             createButtonsList();
             createAnswerButtons();
             SquadCarousel.ItemSelected += SquadCarousel_ItemSelected;
@@ -46,6 +47,8 @@ namespace WC2018.Views
                 
             createButtonsList();
             createAnswerButtons();
+            var n = ((PlayerModel)SquadCarousel.Item).name;
+            if (score.Contains(n))setAnswered(n.Length);
         }
 
         public ButtonGroup buttonGroupTagCloud { get; private set; }
@@ -99,14 +102,9 @@ namespace WC2018.Views
             if (i == l)
             {
                 en.Dispose();
-               var en2 = name.Children.GetEnumerator();
-                en2.MoveNext();
-                while (i > 0)
-                { var b = ((Button)en2.Current);
-                    b.BackgroundColor = Color.Green;
-                    b.IsEnabled = false;i--;en2.MoveNext();
-                }
-                await fileOpertationAsync();
+                setAnswered(i);
+                if(!score.Contains(((PlayerModel)SquadCarousel.Item).name))
+                await saveScoreAsync();
             }
         }
 
@@ -183,19 +181,44 @@ namespace WC2018.Views
                 list[n] = value;
             }
         }
-        public async Task fileOpertationAsync()
+        public async Task saveScoreAsync()
         {
             //check file existance
 
-           var check=await FileService.IsFileExistAsync("score.json",folder);
+           var check=await FileService.IsFileExistAsync("scoreit.txt",folder);
             if (!check)
-            { await FileService.CreateFile("score.json",folder);
+            { await FileService.CreateFile("scoreit.txt",folder);
               
             }
-           await  FileService.WriteTextAllAsync("score.json", "{\"Team\":\"it\",\"players\":\"buffon\"}",folder);
+            score = score + "," + ((PlayerModel)SquadCarousel.Item).name;
+           await  FileService.WriteTextAllAsync("scoreit.txt", score, folder);
               
         }
-       
+
+        public async Task getScoreAsync() {
+            var check = await FileService.IsFileExistAsync("scoreit.txt", folder);
+           
+            if (check)
+             await FileService.ReadAllTextAsync("scoreit.txt", folder).ContinueWith(r=> score=r.Result);
+
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            getScoreAsync();
+        }
+        private void setAnswered(int i)
+        {
+          
+            var en2 = name.Children.GetEnumerator();
+            en2.MoveNext();
+            while (i > 0)
+            {
+                var b = ((Button)en2.Current);
+                b.BackgroundColor = Color.Green;
+                b.IsEnabled = false; i--; en2.MoveNext();
+            }
+        }
     }
 
        
