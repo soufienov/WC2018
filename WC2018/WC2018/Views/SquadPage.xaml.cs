@@ -26,20 +26,28 @@ namespace WC2018.Views
             InitializeComponent();
 
         }
+        public SquadPage(string file) { }
 
-        public SquadPage(string file)
+        public async Task<SquadPage> CreateSquadPage(string file)
         {
             this.file = file;
             var vm = new SquadViewModel(file);
           BindingContext = vm;
             InitializeComponent();
-             getScoreAsync();
+           await  getScoreAsync();
             createButtonsList();
             createAnswerButtons();
             SquadCarousel.ItemSelected += SquadCarousel_ItemSelected;
+            return this;
         }
-
-        private void SquadCarousel_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public static  Task<SquadPage> generateSquadPage(string file)
+        {
+            var ret= new SquadPage(file);
+            return ret.CreateSquadPage(file); 
+        }
+            
+            
+            private void SquadCarousel_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             btnst1.Children.Clear();
             btnst2.Children.Clear();
@@ -47,8 +55,7 @@ namespace WC2018.Views
                 
             createButtonsList();
             createAnswerButtons();
-            var n = ((PlayerModel)SquadCarousel.Item).name;
-            if (score.Contains(n))setAnswered(n.Length);
+           
         }
 
         public ButtonGroup buttonGroupTagCloud { get; private set; }
@@ -119,12 +126,16 @@ namespace WC2018.Views
             }
             return null;
         }
-        private void createAnswerButtons() { var i = 0;
+        private void createAnswerButtons() {
+            var n = ((PlayerModel)SquadCarousel.Item).name;
+             Button btn;
+            var i = 0;
             foreach (string c in nameSequence)
             {
-               
-                var btn = new Button();  btn.BackgroundColor = Color.Azure; btn.Clicked += Btn_Clicked1;
-               
+                if (score.Contains(n)) {  btn = new Button(); btn.BackgroundColor = Color.Green; btn.IsEnabled = false;btn.Text = c; }
+                else {
+                 btn = new Button();  btn.BackgroundColor = Color.Azure; btn.Clicked += Btn_Clicked1;
+                }
                     name.Children.Add(btn, i, 0);
                 i++;
 
