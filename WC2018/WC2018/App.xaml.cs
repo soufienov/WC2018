@@ -12,8 +12,9 @@ namespace WC2018
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new WC2018.Views.TeamsPage());
+            _NavPage = new NavigationPage(new Login());
+            MainPage = _NavPage;
+           // MainPage = new NavigationPage(new WC2018.Views.TeamsPage());
         }
 
         protected override void OnStart()

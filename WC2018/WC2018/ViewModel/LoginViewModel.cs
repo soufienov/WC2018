@@ -1,6 +1,4 @@
-﻿using App1.Services;
-using App1.Views;
-using Newtonsoft.Json;
+﻿using WC2018.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +11,7 @@ namespace WC2018.ViewModel
 {
     class LoginViewModel
     {
-        UserService userservice = new UserService();
+       
         public string Name { get; set; }
         public string Lname { get; set; }
         public string Email { get; set; }
@@ -33,14 +31,14 @@ namespace WC2018.ViewModel
 
 
 
-                        var resp = await userservice.Login(Email, Password);
+                      //  var resp = await userservice.Login(Email, Password);
                         if (Application.Current.Properties.ContainsKey("user"))
                         {
                             dynamic user = Application.Current.Properties["user"];
                             string id = user.mid;
                             if (id.Length > 0)
                             {
-                                await Navigation.PushAsync(new AnnoncePage());
+                                //await Navigation.PushAsync(new AnnoncePage());
                             }
                         }
 
@@ -56,14 +54,14 @@ namespace WC2018.ViewModel
 
 
 
-                        var resp = await userservice.Login("go@go.tn", "123456");
+                       // var resp = await userservice.Login("go@go.tn", "123456");
                         if (Application.Current.Properties.ContainsKey("user"))
                         {
                             dynamic user = Application.Current.Properties["user"];
                             string id = user.mid;
                             if (id.Length > 0)
                             {
-                                await Navigation.PushAsync(new AnnoncePage());
+                               // await Navigation.PushAsync(new AnnoncePage());
                             }
                         }
 

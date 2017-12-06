@@ -1,4 +1,4 @@
-﻿using App1.Views;
+﻿using WC2018.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace WC2018.ViewModel
+namespace WC2018.Views
 {
     public class BasePage : ContentPage
     {

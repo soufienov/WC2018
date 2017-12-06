@@ -8,19 +8,21 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XLabs.Ioc;
+using XLabs.Platform.Device;
 
-namespace App1.Views
+namespace WC2018.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
         public Login()
-        {
+        {     
+
             var vm = new LoginViewModel();
             vm.Navigation = Navigation;
             BindingContext = vm;
-
-            InitializeComponent();
+InitializeComponent();
         }
 
         private void fblog(object sender, EventArgs e)

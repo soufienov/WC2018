@@ -58,7 +58,6 @@ namespace WC2018.Views
            
         }
 
-        public ButtonGroup buttonGroupTagCloud { get; private set; }
   
         private void createButtonsList()
         {nameSequence = ((PlayerModel)SquadCarousel.Item).nameSequence;
