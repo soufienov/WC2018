@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using WC2018.ViewModel;
-using WC2018.controls;
 using WC2018.Model;
 using WC2018.services;
 using PCLStorage;
@@ -60,7 +58,9 @@ namespace WC2018.Views
 
   
         private void createButtonsList()
-        {nameSequence = ((PlayerModel)SquadCarousel.Item).nameSequence;
+        {
+            //create keyboard
+            nameSequence = ((PlayerModel)SquadCarousel.Item).nameSequence;
             List<string> chalist = new List<string>();chalist.AddRange( nameSequence);
             
             while (chalist.Count < 16)
@@ -228,6 +228,24 @@ namespace WC2018.Views
                 b.BackgroundColor = Color.Green;
                 b.IsEnabled = false; i--; en2.MoveNext();
             }
+        }
+
+        private void Hint(object sender, EventArgs e)
+        {
+            //gives help
+            //1 look for good answers in answer buttons
+            var en = name.Children.GetEnumerator();
+            en.MoveNext();
+            var i = 0;
+            while (i < nameSequence.Count) { var b = (Button)en.Current;
+                if (b.Text == nameSequence.ElementAt<string>(i)) {
+                    b.BackgroundColor = Color.Green;
+                    b.IsEnabled = false;
+                }
+                i++;en.MoveNext();
+            }
+
+
         }
     }
 

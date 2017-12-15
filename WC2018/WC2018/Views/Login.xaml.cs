@@ -19,7 +19,7 @@ namespace WC2018.Views
         public Login()
         {     
 
-            var vm = new LoginViewModel();
+           var vm = new LoginViewModel();
             vm.Navigation = Navigation;
             BindingContext = vm;
 InitializeComponent();

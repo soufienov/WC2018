@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using WC2018.Views;
 using Xamarin.Forms;
 
@@ -12,7 +10,7 @@ namespace WC2018
         public App()
         {
             InitializeComponent();
-            _NavPage = new NavigationPage(new Login());
+            _NavPage = new NavigationPage(new TeamsPage());
             MainPage = _NavPage;
            // MainPage = new NavigationPage(new WC2018.Views.TeamsPage());
         }
