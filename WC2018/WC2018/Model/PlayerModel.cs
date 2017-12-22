@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WC2018.Model
 {
@@ -10,7 +8,7 @@ namespace WC2018.Model
     {public string name { get; set; }
         public string age { get; set; }
         public string team { get; set; }
-        public string photo { get; set; } = "tn.jpg";
+        public string photo { get; set; } = "terstegen.jpg";
         public List<string> nameSequence { get {return name.ToCharArray(0, name.Length).ToList().Select(c => c.ToString()).ToList(); } set { } }
     public static List<PlayerModel> GuetSquad(string squad) {
             var squadList = new List<PlayerModel>();

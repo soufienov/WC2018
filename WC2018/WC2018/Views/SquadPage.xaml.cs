@@ -230,7 +230,7 @@ namespace WC2018.Views
             }
         }
 
-        private void Hint(object sender, EventArgs e)
+        private void Right_ones(object sender, EventArgs e)
         {
             //gives help
             //1 look for good answers in answer buttons
@@ -245,6 +245,38 @@ namespace WC2018.Views
                 i++;en.MoveNext();
             }
 
+
+        }
+        private void Remove_wrong(object sender, EventArgs e)
+        {
+            //gives help
+            //1 look for good answers in answer buttons
+            var en = btnst1.Children.GetEnumerator();
+            
+           
+            while (en.MoveNext())
+            {
+                var b = (Button)en.Current;
+                if ( !nameSequence.Contains(b.Text))
+                {
+                    
+                    b.IsEnabled = false;
+                }
+               
+            }
+            var en2 = btnst2.Children.GetEnumerator();
+
+
+            while (en2.MoveNext())
+            {
+                var b = (Button)en2.Current;
+                if (!nameSequence.Contains(b.Text))
+                {
+
+                    b.IsEnabled = false;
+                }
+
+            }
 
         }
     }

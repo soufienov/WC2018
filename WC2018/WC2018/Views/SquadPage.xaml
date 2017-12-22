@@ -6,7 +6,7 @@
            xmlns:local="clr-namespace:WC2018.controls;assembly=WC2018.controls.ButtonGroup" >
     <ContentPage.Content>
         <StackLayout x:Name="major">
-            <Button Clicked="Hint" Text="read"/>
+            <Button Clicked="Remove_wrong" Text="1/2"/>
             
             <forms:CarouselView x:Name="SquadCarousel" ItemsSource="{Binding Squad}">
             <forms:CarouselView.ItemTemplate>
