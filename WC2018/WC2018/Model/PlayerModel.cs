@@ -9,6 +9,8 @@ namespace WC2018.Model
         public string age { get; set; }
         public string team { get; set; }
         public string photo { get; set; } = "terstegen.jpg";
+        public string lastname { get; set; }
+        public string number { get; set; } 
         public List<string> nameSequence { get {return name.ToCharArray(0, name.Length).ToList().Select(c => c.ToString()).ToList(); } set { } }
     public static List<PlayerModel> GuetSquad(string squad) {
             var squadList = new List<PlayerModel>();
